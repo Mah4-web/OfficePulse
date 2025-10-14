@@ -48,10 +48,10 @@ Tools: SQL editor on Supabase. ✅ Purpose: to create our tables and seed dummy 
 -  📂 Rota - stretch
 - Not-found
 - 📂 Components 
-- AuthForm.tsx               = Login/Register form (Radix UI)
-- Sidebar.tsx                = Navigation menu
-- MessageFeed.tsx            = Shows all messages
-- MessageInput.tsx           = Message input box
+- AuthForm.jsx               = Login/Register form (Radix UI)
+- Sidebar.jsx                = Navigation menu
+- MessageFeed.jsx            = Shows all messages
+- MessageInput.jsx           = Message input box
 - 📂 lib
 - 📂 - auth.js /                = JWT: sign, verify
 
