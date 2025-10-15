@@ -3,11 +3,11 @@ import bcrypt from 'bcryptjs';
 import { db } from '@/utils/dbConnection';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { signToken } from '@/utils/auth'; 
+import { signToken } from '@/lib/auth'; 
 
 const VULN = process.env.VULN === 'true';
 
-// VULNERABLE: demo only — DO NOT USE IN PRODUCTION, in case someone just copy and paste
+// VULNERABLE: demo only — DO NOT USE IN PRODUCTION, in case someone want to just copy and paste
 async function vulnerableFindUser(username) {
   // purposely insecure for demo
   const query = `SELECT id, username, password_hash FROM users WHERE username = '${username}' LIMIT 1`;
