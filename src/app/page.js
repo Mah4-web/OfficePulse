@@ -1,11 +1,19 @@
-import AuthForm from '@/Components/AuthForm.jsx'; 
+import AuthForm from "@/Components/AuthForm.jsx";
+import { loginAction } from "@/actions/login";
+import { registerAction } from "@/actions/register";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <AuthForm />    {/* I will be using server action here in */}
+    <main className="min-h-screen flex flex-col items-center justify-center gap-8 bg-gray-100">
+      {/* Login Form */}
+      <AuthForm title="Login" action={loginAction} buttonText="Login" />
+
+      {/* Register Form */}
+      <AuthForm
+        title="Register"
+        action={registerAction}
+        buttonText="Register"
+      />
     </main>
   );
 }
-// TODO:
-// We will be making server action for login and registration and we'll be importing it from actions so let's say I call it loginAction for then I will use it in action
