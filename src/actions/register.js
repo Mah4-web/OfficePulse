@@ -1,7 +1,7 @@
 'use server';
 import bcrypt from 'bcryptjs';
 import { db } from '@/utils/dbConnection.js'; 
-
+import { redirect } from 'next/navigation';
 
 export default async function registerAction(formData) {
     const username = formData.get('username')?.trim();
@@ -15,4 +15,7 @@ export default async function registerAction(formData) {
     if (err.code === '23505') throw new Error('Username already exists'); //this is a postgress sql error for dupilcation, I'll try to make notes of everything so if someone is interested then just use it and understand it.
     throw new Error('DB error');
     }
+    redirect('/'); 
 }
+
+
