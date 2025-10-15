@@ -1,8 +1,9 @@
 'use server';
 import bcrypt from 'bcryptjs';
-import db from '@/utils/dbConnection.js';
+import { db } from '@/utils/dbConnection.js'; 
 
-export async function registerAction(formData) {
+
+export default async function registerAction(formData) {
     const username = formData.get('username')?.trim();
     const password = formData.get('password');
     if (!username || !password) throw new Error('Missing fields');

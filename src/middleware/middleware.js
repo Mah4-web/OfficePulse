@@ -1,34 +1,21 @@
-import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import { verifyToken } from '@/lib/auth';
 
-export async function middleware(req) {
-  // Create Supabase client for middleware
-  const supabase = createMiddlewareSupabaseClient({
-    req,
-    res: NextResponse.next(),
-  });
+export function middleware(req) {
+  const token = req.cookies.get('token')?.value;
 
-  // Get the user's session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  // If there is no session → redirect to login
-  if (!session) {
-    const loginUrl = new URL("/login", req.url);
-    return NextResponse.redirect(loginUrl);
+  if (!token) {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // Optional: check user role
-  // if (session.user.role !== 'admin') {
-  //   return NextResponse.redirect(new URL('/not-authorized', req.url));
-  // }
+  const payload = verifyToken(token);
+  if (!payload) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 
-  // Session is valid → allow access
   return NextResponse.next();
 }
 
-// Define the paths where middleware should run
 export const config = {
-  matcher: ["/dashboard/:path*", "/profile/:path*", "/api/secure/:path*"],
+  matcher: ['/profile/:path*', '/dashboard/:path*', '/api/secure/:path*'],
 };
