@@ -11,7 +11,7 @@ export default function HomePage() {
         <a href="/registration" className="text-amber-500 hover:underline">
           Register here
         </a>
-      </p>
+        </p>
     </main>
   );
 }
