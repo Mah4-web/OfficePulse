@@ -10,13 +10,13 @@ export default async function ProfilePage({ params: { profileId } }) {
     const user = verifyToken(token);
 
     if (!user || user.userId.toString() !== profileId) {
-    return <p>Unauthorized</p>;
+    return <p className="text-red-600 text-4xl font-semibold text-center mt-8 animate-bounce">Unauthorized</p>;
     }
 
     return (
     <main className="p-6">
-        <h1>Welcome, {user.username}!</h1>
-        <p>This is your super secret profile page with ID: {profileId}</p>
+        <h1 className="text-5xl font-extrabold text-gray-900 drop-shadow-lg mb-6">Welcome, {user.username}!</h1>
+        <p className="text-lg text-gray-700 bg-gray-50 p-4 rounded-lg shadow-md">This is your super secret profile page with ID: {profileId}</p>
          {/* ✅ Displayed the JWT */}
         <section className="bg-gray-100 p-4 rounded">
         <h2 className="text-lg font-semibold">JWT Token:</h2>
