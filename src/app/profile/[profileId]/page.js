@@ -1,6 +1,7 @@
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import { logoutAction } from '@/actions/logout';
+import JWTDebugInfo from '@/Components/JwtDebugInfo';
 
 export default async function ProfilePage({ params: { profileId } }) {
     const cookiesList =  await cookies();             
@@ -30,8 +31,10 @@ export default async function ProfilePage({ params: { profileId } }) {
         <pre className="text-sm bg-white p-2 rounded border">
             {/* JavaScript function that converts a JavaScript object into a readable JSON string, JSON.stringify(value, replacer, space) */}
             {JSON.stringify(user, null, 2)}
-        </pre>
+        </pre> 
         </section>
+          {/* ✅ Logs to browser console */}
+        <JWTDebugInfo token={token} user={user} />
         <form action={logoutAction} className="mt-6">
         <button
             type="submit"
