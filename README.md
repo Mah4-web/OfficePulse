@@ -14,38 +14,6 @@ This project is a beginner-friendly, research-based demonstration of how **JWT (
 
 ---
 
-### 📌 Table of Contents
-
-- 🔐 What is JWT (Json web token) and Bcrypt?​
-
-- 📂 Structure of JWT​
-
-- ䷬ Why use Both
-
-- 📦 Project Features
-
-- 🛠️ Tech Stack
-
-- 🌆 Wireframe
-
-- ⚙️ Installation & Setup
-
-- 🧪 Demonstration Guide
-
-- 🔐 Why JWT and Bcrypt?
-
-- 💡 Real-World Use Cases
-
-- 🧠 Security & Learning Notes
-
-- ⚠️ Challenges Faced
-
-- 🔗 Useful Resources
-
-- 📝 Disclaimer
-
----
-
 ## 🔐 What is JWT (Json web token) and Bcrypt?​
 ​​
 Imagine JWT as a special **digital badge** you get when you log into a website. It says, “This 
@@ -88,7 +56,7 @@ sure no one has messed with your sandwich!​
 ​
 ---
 
-## How They Work Together in Your App​
+## 👫 How They Work Together in Your App​
 ​
 ​​
 - You register with a username and password.​
@@ -102,7 +70,68 @@ are logged in.​
 
 ---
 
- ## ✅ Features
+### 💡 Real-Life Examples
+
+- 🔑 Internal tools at companies often use JWT and bcrypt for simple auth.
+
+- 🎮 Games and mobile apps often use custom JWT flows to avoid service fees.
+
+- 🔒 Banking dashboards use bcrypt for passwords + JWT for secure sessions.
+
+---
+
+### ✅ Benefits of This Approach
+
+- 💡 Learn real-world authentication
+
+- 🔐 You don’t have to depend on third-party services, the code is all yours and you own the whole setup
+
+- 🔧 Customizable and extensible
+
+- ⚙️ Perfect for microservices
+
+- 🧠 Understand and control your own security
+
+---
+
+## 🛡️ Why bcrypt + JWT help (and what they don’t fix)
+
+#### ✅ What they help with:
+
+- bcrypt ensures that if your DB is breached, attackers can't see passwords:
+
+- SELECT password_hash FROM users;
+-- Result: hashed gibberish, not usable passwords
+
+
+#### JWT signs a token after login that can’t be forged easily:
+
+- Verifies signature
+
+- Validates expiration
+
+- Allows secure, stateless auth across routes/devices
+
+#### ⚠️ What they don’t fix:
+
+- SQL Injection: If your code is vulnerable, attackers may bypass login altogether and extract data, even with bcrypt or JWT in place.
+
+#### Example attack:
+
+- SELECT * FROM users WHERE username = 'admin' OR '1'='1';
+
+
+- Even if passwords are hashed, bypassing auth can let attackers get a valid token.
+
+- Token Revocation: JWTs are stateless — once issued, they remain valid until they expire.
+
+- Add short expiry + refresh tokens
+
+- Consider revocation lists or logout tokens to prevent abuse
+
+---
+
+ ## ✅ OfficePulse's Features
 
 - Register and Login forms built with Tailwind CSS
 - Uses `bcryptjs` to hash passwords
@@ -130,13 +159,27 @@ are logged in.​
 
 ![Trello](./public/Trello.png)
 
+![Jira](./public/Jira.png)
+
 ---
 
 ## 🚀 Installation and set up
 
 ###  Set up Github
 
-- Initial Planning is in the planning.md
+- 1. Clone the repo
+- git clone <your-repo-url>
+- cd repo name
+
+- 2. Install dependencies
+- npm install
+
+- 3. Setup .env file (see below)
+
+- 4. Run the app
+- npm run dev
+
+- Planning Notes: Initial Planning is in the planning.md
 
 ---
 
@@ -154,11 +197,13 @@ are logged in.​
 
 - `DATABASE_URL=your-supabase-postgres-url`
 - `JWT_SECRET=your-very-secret-key`
-- NODE_ENV=developments
-- Note: Never commit .env or forget it. Add in .gitignore
+- NODE_ENV=development
+- VULN=false # set to true to test the vulnerable SQL login
+- JWT_EXPIRES_IN=15m
+- Note: Never commit .env file or forget it. Add it to .gitignore
 ---
 
-### Create your users table:
+### Create your users table (SQL):
 - CREATE TABLE IF NOT EXISTS users (
   - id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   - username TEXT NOT NULL,
@@ -203,43 +248,31 @@ are logged in.​
 
 - Shows how SQL Injection could occur if you don’t use parameterized queries.
 
+- ❌ const query = `SELECT * FROM users WHERE username = '${username}'`;
+
+- Use $1, $2 etc in the queries and pass user input as an array
+
+- ✅ `SELECT * FROM users WHERE username = $1';`
+
 ---
 
-## 🔐 Why JWT and Bcrypt?
+### 🧠 Security & Learning Notes:
 
-### 🔑 JWT (JSON Web Token)
+- ✅ Use HttpOnly, Secure, SameSite flags on cookies
 
-- Stateless auth — no server-side session required
+- ⚠️ Don’t store passwords or sensitive data in JWTs
 
-- Can store user info securely in token (never store passwords!)
+- 🔐 Protect dynamic routes by verifying JWT server-side
 
-- Works across domains and mobile/web platforms
+- 🧪 Demonstrated SQL injection risks with toggle
 
-### 🧂 Bcrypt
+- 🧠 Learned to properly use:
 
-- Passwords are hashed with salting, making them secure against brute-force attacks
+- cookies().get() / .set() / .delete() in Server Actions
 
-- Widely used in real-world systems (e.g., GitHub, LinkedIn, etc.)
+- Async route handling in App Router
 
-### 💡 Real-Life Examples
-
-- 🔑 Internal tools at companies often use JWT and bcrypt for simple auth.
-
-- 🎮 Games and mobile apps often use custom JWT flows to avoid service fees.
-
-- 🔒 Banking dashboards use bcrypt for passwords + JWT for secure sessions.
-
-### ✅ Benefits of This Approach
-
-- 💡 Learn real-world authentication
-
-- 🔐 No vendor lock-in
-
-- 🔧 Customizable and extensible
-
-- ⚙️ Perfect for microservices
-
-- 🧠 Understand and control your own security
+- Protecting dynamic /profile/[id] route using JWT claims
 
 ---
 
@@ -304,7 +337,38 @@ This required a deeper understanding of Next.js’s new React Server Components 
 
 ---
 
+### 💻 Developers Notes:
+
+- 👩🏻‍💻 Quick Debug Tip (Console)
+
+- **To see what's happening:**
+
+- Open DevTools → Console in your browser
+
+- The app logs the JWT token and the decoded user info after login
+
+- Visit /profile/:id to see:
+
+- The raw token
+
+- The decoded payload
+
+- Console logs from JWTDebugInfo
+
+- ➡️ This helps you understand how the token is created, stored, and verified.
+
+#### 🍪 Quick Cookie Tip
+
+- Right-click → Inspect → go to the Application tab → open Cookies on the left
+
+- You’ll see the token saved there
+
+- If it says HttpOnly, that’s normal — it means JavaScript can’t see it (which helps keep it safe)
+
+---
+
 ## Resources
+
 - [JWT Tokens](https://medium.com/@kcsanjeeb091/implementing-jwt-based-authentication-with-next-js-v14-and-nextauth-v4-e3efca4b158b)
 
 - [How to implement authentication](https://nextjs.org/docs/pages/guides/authentication)
@@ -330,18 +394,17 @@ This is a learning-focused demo, so feel free to fork it, remix it, or expand it
 
 - 👮 Route protection (middleware)
 
-- 🔁 Logout functionality
+- 🔁 Logout functionality and session clearing
 
 ---
 
 ### 🛑 Disclaimer
 
-- This is for educational and research purposes only.
+- This project is for educational and research purposes only.
 - ⚠️ Do not use the vulnerable login code in production.
 - Always sanitize inputs and use parameterized SQL queries.
 - Don't put values directly into SQL strings
 
-- ❌ const query = `SELECT * FROM users WHERE username = '${username}'`;
-- Use $1, $2 etc in the queries and pass user input as an array
+---
 
-- ✅ `SELECT * FROM users WHERE username = $1';`
+## Feel free to reach out if you have any questions, suggestions, or need help setting things up!
