@@ -189,7 +189,7 @@ are logged in.​
 
 - npm i bcryptjs
 
-- npm i bcryptjs
+- npm i jsonwebtoken
 
 ---
 
