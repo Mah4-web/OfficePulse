@@ -154,7 +154,7 @@ are logged in.​
 
 ---
 
-## Wireframe and Trello
+## Wireframe and Trello, Jira
 ![Wireframe](./public/Wireframe.png)
 
 ![Trello](./public/Trello.png)
@@ -366,6 +366,13 @@ This required a deeper understanding of Next.js’s new React Server Components 
 - If it says HttpOnly, that’s normal — it means JavaScript can’t see it (which helps keep it safe)
 
 ---
+
+## 🙏🏼 Credits
+
+- To all my instructors — thank you for not just teaching me how to git push, but also giving me that much-needed push in life.
+This project exists because you pushed the right branches (and the right buttons) at the right time. 😄
+
+- Adam for being part of the initial phase of the project. Although he moved on early, his input helped shape the foundation.
 
 ## Resources
 
